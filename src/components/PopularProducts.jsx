@@ -1,8 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import styled from 'styled-components';
+import './PopularProducts.css';
 import { ProductContext } from '../Contexts/ProductContext';
-import { Link, useParams } from 'react-router-dom';
-import Sidebar from './Sidebar';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
 	display: flex;
@@ -78,31 +81,38 @@ const linkStyle = {
 	textDecoration: 'none',
 };
 
-export const ProductCard = () => {
-	const { category, subcategory } = useParams();
+function PopularProducts() {
 	const { data } = useContext(ProductContext);
-	const requiredProducts = data.filter((item) => item.subCategory == subcategory);
+
+	const getRandomObjects = (arr) => {
+		if (arr.length <= 9) {
+			return arr;
+		}
+
+		const shuffled = arr.sort(() => 0.5 - Math.random());
+		return shuffled.slice(0, 9);
+	};
+
+	const randomObjects = getRandomObjects(data);
 
 	return (
-		<Container>
-			<Sidebar />
-
-			<ProductContainer>
-				{requiredProducts.map((el) => {
-					return (
-						<Link style={linkStyle} to={`/products/${el.mainCategory}/${el.subCategory}/${el.id}`}>
-							<Wrapper key={el.id}>
-								<Img src={`data:image/jpeg;base64,${el.productImg}`} />
-								<View> View Product </View>
-								<ProductDetail>
-									<Subcategory>{el.subCategory} </Subcategory>
-									<ItemTitle>{`${el.productName} - ${el.article}`}</ItemTitle>
-								</ProductDetail>
-							</Wrapper>
-						</Link>
-					);
-				})}
-			</ProductContainer>
-		</Container>
+		<ProductContainer>
+			{randomObjects.map((el) => {
+				return (
+					<Link style={linkStyle} to={`/products/${el.mainCategory}/${el.subCategory}/${el.id}`}>
+						<Wrapper key={el.id}>
+							<Img src={`data:image/jpeg;base64,${el.productImg}`} />
+							<View> View Product </View>
+							<ProductDetail>
+								<Subcategory>{el.subCategory} </Subcategory>
+								<ItemTitle>{`${el.productName} - ${el.article}`}</ItemTitle>
+							</ProductDetail>
+						</Wrapper>
+					</Link>
+				);
+			})}
+		</ProductContainer>
 	);
-};
+}
+
+export default PopularProducts;

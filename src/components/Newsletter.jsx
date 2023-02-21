@@ -4,30 +4,31 @@ import BigScreen from '../responsive';
 const Container = styled.div`
 	height: 100%;
 	padding: 3rem 0.9rem;
-	background-color: #006400;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
 	color: whitesmoke;
 	width: 100%;
-	border: 1px solid green;
 `;
 
 const Title = styled.h2`
-	color: whitesmoke;
+	color: #303030;
 	text-align: center;
-	margin: 2rem auto;
-	font-size: 1.8rem;
-	${BigScreen({ fontSize: '2.5rem' })};
-	&::after {
+	font-size: 1.6rem;
+	margin: 0.8rem auto;
+	font-weight: 500;
+	&:after {
 		content: '';
 		display: block;
-		background-color: white;
 		width: 100px;
 		height: 4px;
-		margin: 1rem auto;
+		margin: 0.5rem auto;
+		background-color: #006400;
 	}
+	${BigScreen({
+		fontSize: '1.8rem',
+	})}
 `;
 const Desc = styled.div`
 	font-size: 1rem;
@@ -46,7 +47,7 @@ const Input = styled.input`
 	border: none;
 	outline: none;
 	text-indent: 20px;
-	background-color: whitesmoke;
+	background-color: #e0e0e0;
 	font-family: inherit;
 	height: 40px;
 	width: 80%;
@@ -56,8 +57,8 @@ const Input = styled.input`
 
 const Button = styled.button`
 	border: none;
-	background-color: white;
-	color: #006400;
+	background-color: #006400;
+	color: #fff;
 	font-weight: 600;
 	margin: 1rem auto;
 	padding: 10px 15px;
@@ -66,14 +67,13 @@ const Button = styled.button`
 	&:hover {
 		box-shadow: inset -10rem 0 0 0 #32cd32, inset 10rem 0 0 0 #32cd32;
 		color: whitesmoke;
-		border: 1.5px solid white;
 	}
 `;
 
 const Newsletter = () => {
 	return (
 		<Container>
-			<Title>Newsletter</Title>
+			<Title>NEWSLETTER</Title>
 			<Desc>Get timely updates from your favorite products.</Desc>
 			<InputContainer>
 				<Input placeholder="Your email" />

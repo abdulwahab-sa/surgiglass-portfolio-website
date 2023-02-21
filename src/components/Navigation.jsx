@@ -76,7 +76,7 @@ const Navigation = () => {
 				{navigation.map((item) => {
 					return (
 						<MenuItemWrapper key={item.id}>
-							<Link to={item.path} style={linkStyles}>
+							<Link to={item.path} style={linkStyles} onClick={() => setMenuOpen(false)}>
 								<MenuItems>{item.title}</MenuItems>
 							</Link>
 						</MenuItemWrapper>

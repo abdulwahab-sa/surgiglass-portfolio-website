@@ -114,12 +114,14 @@ function getUniqueListBy(arr, key) {
 }
 
 function Sidebar() {
-	//const { uniqueMainCategories, setShowCategories } = useContext(ProductContext);
-	const uniqueMainCategories = getUniqueListBy(products, 'mainCategory');
-	const uniqueSubCategories = getUniqueListBy(products, 'subCategory');
+	const { setShowCategories } = useContext(ProductContext);
+	const { data } = useContext(ProductContext);
+	const uniqueMainCategories = getUniqueListBy(data, 'mainCategory');
+	const uniqueSubCategories = getUniqueListBy(data, 'subCategory');
 	const [selectedCategory, setSelectedCategory] = useState();
 	const [dropdown, setDropdown] = useState(false);
 	const [disabled, setDisabled] = useState(false);
+	const [textInput, setTextInput] = useState('');
 
 	const handleClick = (e, el) => {
 		e.preventDefault();
@@ -155,19 +157,37 @@ function Sidebar() {
 	const ref = useOnclickOutside(
 		() => {
 			setResponsiveSidebar(false);
-			console.log('I did my job');
 		},
 		{ disabled }
 	);
+
+	const filteredProducts = data.filter((product) => product.subCategory.toLowerCase().includes(textInput.toLowerCase()));
+
+	const handleSearchClick = (e) => {
+		e.preventDefault();
+		setShowCategories(filteredProducts);
+	};
+
+	const handleKeyDown = (e) => {
+		if (e.key === 'Enter') {
+			e.preventDefault();
+			setShowCategories(filteredProducts);
+		}
+	};
+
+	const handleChange = (e) => {
+		setTextInput(e.target.value);
+		setShowCategories(filteredProducts);
+	};
 
 	return (
 		<Container left={responsiveSidebar ? '0' : '-100%'} ref={ref}>
 			<SearchWrapper>
 				{' '}
-				<Input type="text" placeholder="Search Products" />
+				<Input type="text" placeholder="Search Products" value={textInput} onChange={handleChange} onKeyDown={handleKeyDown} />
 				<Search>
 					{' '}
-					<FaSearch />{' '}
+					<FaSearch onClick={handleSearchClick} />{' '}
 				</Search>
 			</SearchWrapper>
 			<CategoryWrapper>
@@ -195,7 +215,7 @@ function Sidebar() {
 												<CategoryItemWrapper style={{ justifyContent: 'center', height: '35px', fontSize: '14px' }}>
 													<Link to={`/products/${prod.mainCategory}/${prod.subCategory}`} style={linkStyles}>
 														<CategoryItem>{prod.subCategory}</CategoryItem>
-														<Quantity>{`(${products.filter((item) => item.subCategory === el.subCategory).length})`}</Quantity>
+														<Quantity>{`(${data.filter((item) => item.subCategory === el.subCategory).length})`}</Quantity>
 													</Link>
 												</CategoryItemWrapper>
 											</CategoryWrapper>

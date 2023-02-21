@@ -13,6 +13,8 @@ import Sidebar from '../components/Sidebar';
 import Categories from '../components/Categories';
 import Products from './Products';
 import Navigation from '../components/Navigation';
+import ProductSlider from '../components/PopularProducts';
+import PopularProducts from '../components/PopularProducts';
 
 function Home() {
 	const [width, setWidth] = useState(window.innerWidth);
@@ -29,6 +31,7 @@ function Home() {
 			{width > breakpoint ? <MainSlider /> : <SlideFour />}
 			<HomeCategories />
 			<Videosection />
+
 			<HomeAchievements />
 			<Newsletter />
 		</>

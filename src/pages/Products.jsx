@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import Categories from '../components/Categories';
 import Sidebar from '../components/Sidebar';
@@ -17,11 +17,12 @@ function getUniqueListBy(arr, key) {
 }
 
 const Products = () => {
-	const uniqueSubCategories = getUniqueListBy(products, 'subCategory');
-	const uniqueMainCategories = getUniqueListBy(products, 'mainCategory');
-	const [showCategories, setShowCategories] = useState(uniqueSubCategories);
+	const { data } = useContext(ProductContext);
+	const uniqueSubCategories = getUniqueListBy(data, 'subCategory');
+	const uniqueMainCategories = getUniqueListBy(data, 'mainCategory');
+	const [showCategories, setShowCategories] = useState([]);
 	const { category, subcategory } = useParams();
-	const productsArr = products.filter((items) => items.subCategory == subcategory);
+	const productsArr = data.filter((items) => items.subCategory == subcategory);
 	const selectedCategoryarr = uniqueSubCategories.filter((item) => item.mainCategory == category);
 
 	return (
@@ -30,11 +31,13 @@ const Products = () => {
 				value={{
 					showCategories,
 					uniqueMainCategories,
+					uniqueSubCategories,
 					setShowCategories,
 					selectedCategoryarr,
 					category,
 					subcategory,
 					products,
+					data,
 				}}
 			>
 				<Sidebar />
