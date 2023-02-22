@@ -22,7 +22,7 @@ import axios from 'axios';
 function App() {
 	const [data, setData] = useState([]);
 
-	const endPoint = 'http://localhost:3005/api/';
+	const endPoint = 'https://surgiglass.herokuapp.com/api/';
 	useEffect(() => {
 		fetchProducts();
 	}, []);

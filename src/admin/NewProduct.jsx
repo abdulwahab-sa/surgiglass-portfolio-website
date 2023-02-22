@@ -133,7 +133,7 @@ export const NewProduct = () => {
 	};
 
 	const createProduct = async (productData) => {
-		const endPoint = 'http://localhost:3005/api/';
+		const endPoint = 'https://surgiglass.herokuapp.com/api/';
 
 		try {
 			const result = await axios.post(endPoint, productData);

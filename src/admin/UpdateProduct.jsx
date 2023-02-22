@@ -75,7 +75,7 @@ const Errormessage = styled.span`
 export const UpdateProduct = () => {
 	const { id } = useParams();
 
-	const endPoint = `http://localhost:3005/api/${id}`;
+	const endPoint = `https://surgiglass.herokuapp.com/api/${id}`;
 
 	const [formInputs, setFormInputs] = useState({
 		productName: '',
