@@ -1,16 +1,7 @@
 import React, { useContext } from 'react';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import styled from 'styled-components';
-import './PopularProducts.css';
 import { ProductContext } from '../Contexts/ProductContext';
 import { Link } from 'react-router-dom';
-
-const Container = styled.div`
-	display: flex;
-	justify-content: space-evenly;
-`;
 
 const ProductContainer = styled.div`
 	width: 100%;
@@ -66,12 +57,6 @@ const ItemTitle = styled.h2`
 	margin: 5px auto;
 `;
 const Subcategory = styled.h3`
-	font-size: 13px;
-	font-weight: 300;
-	color: #303030;
-`;
-
-const Article = styled.span`
 	font-size: 13px;
 	font-weight: 300;
 	color: #303030;
