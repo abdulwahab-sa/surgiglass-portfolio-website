@@ -1,12 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { ProductContext } from '../Contexts/ProductContext';
+import { useAPI } from '../Contexts/ProductContext';
 import { Link, useParams } from 'react-router-dom';
-import Sidebar from './Sidebar';
 
 const Container = styled.div`
 	display: flex;
 	justify-content: space-evenly;
+	padding: 36px;
 `;
 
 const ProductContainer = styled.div`
@@ -80,28 +80,31 @@ const linkStyle = {
 
 export const ProductCard = () => {
 	const { category, subcategory } = useParams();
-	const { data } = useContext(ProductContext);
-	const requiredProducts = data.filter((item) => item.subCategory == subcategory);
-
+	const { products } = useAPI();
+	console.log(products);
 	return (
 		<Container>
-			<Sidebar />
-
 			<ProductContainer>
-				{requiredProducts.map((el) => {
-					return (
-						<Link style={linkStyle} to={`/products/${el.mainCategory}/${el.subCategory}/${el.id}`}>
-							<Wrapper key={el.id}>
-								<Img src={`data:image/jpeg;base64,${el.productImg}`} />
-								<View> View Product </View>
-								<ProductDetail>
-									<Subcategory>{el.subCategory} </Subcategory>
-									<ItemTitle>{`${el.productName} - ${el.article}`}</ItemTitle>
-								</ProductDetail>
-							</Wrapper>
-						</Link>
-					);
-				})}
+				{products
+					.filter(
+						(item) =>
+							item.subcategory_title.toLowerCase() === subcategory.toLowerCase() &&
+							item.category_title.toLowerCase() === category.toLowerCase()
+					)
+					.map((el) => {
+						return (
+							<Link style={linkStyle} to={`/products/${el.category_title}/${el.subcategory_title}/${el.product_id}`}>
+								<Wrapper key={el.id}>
+									<Img src={URL.createObjectURL(new Blob([new Uint8Array(el.product_img.data)], { type: 'image/png' }))} />
+									<View> View Product </View>
+									<ProductDetail>
+										<Subcategory>{el.subcategory_title} </Subcategory>
+										<ItemTitle>{`${el.product_title} - ${el.product_article}`}</ItemTitle>
+									</ProductDetail>
+								</Wrapper>
+							</Link>
+						);
+					})}
 			</ProductContainer>
 		</Container>
 	);

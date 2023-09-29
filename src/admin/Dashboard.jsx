@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import TableLayout from './TableLayout';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useLogout } from '../hooks/useLogout';
+import Inquiry from './Components/Inquiry';
+import Sidebar from './Components/Sidebar';
+import Categories from './Components/AllCategories';
+import { NewCategory } from './Components/NewCategory';
+import MainPanel from './Components/MainPanel';
 
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
+	display: flex;
+	justify-content: space-between;
 `;
 
 const Title = styled.h2`
@@ -40,31 +46,40 @@ const Button = styled.button`
 	background-color: ${(props) => props.bg};
 	color: ${(props) => props.color};
 	font-weight: 500;
+	font-family: 'Montserrat', sans-serif;
 	cursor: pointer;
 `;
 
 const Dashboard = () => {
+	const [dashboard, setDashboard] = useState([]);
+
 	const { logout } = useLogout();
 	const handleLogout = (e) => {
 		e.preventDefault();
 		logout();
 	};
+
 	return (
+		/* 
 		<Container>
 			<Header>
-				<Title> Surgiglass - Admin Dashboard </Title>
+				<Title> Trade City Corp - Admin Dashboard </Title>
 				<Button onClick={handleLogout} bg={'yellow'} color={'#303030'}>
 					Logout
 				</Button>
 			</Header>
 			<Link to={'/addproduct'} style={{ textDecoration: 'none' }}>
-				<Button bg={'teal'} margin={'0 auto'} color={'#fff'}>
+				<Button bg={'teal'} margin={'0 auto'}>
 					{' '}
 					Add Product
 				</Button>
 			</Link>
-			<TableLayout />
+			<Inquiry />
+			
 		</Container>
+		*/
+
+		<MainPanel />
 	);
 };
 

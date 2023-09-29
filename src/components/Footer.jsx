@@ -1,7 +1,8 @@
-import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import styled from 'styled-components';
 import BigScreen from '../responsive';
 import Banner from './../images/footer-banner.jpg';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
 	background: url(${Banner}) no-repeat bottom center fixed;
@@ -113,6 +114,15 @@ const Overlay = styled.div`
 	left: 0;
 `;
 
+const Links = [
+	{ title: 'Home', link: '/' },
+	{ title: 'About Us', link: '/about' },
+	{ title: 'Get Quote', link: '/quotation' },
+	{ title: 'Our Products', link: '/products' },
+	{ title: 'Contact Us', link: '/contact' },
+	{ title: 'Terms & Conditions', link: '#' },
+];
+
 const Footer = () => {
 	return (
 		<>
@@ -143,12 +153,11 @@ const Footer = () => {
 				<Center>
 					<Title>Useful Links</Title>
 					<List>
-						<ListItem>Home</ListItem>
-						<ListItem>About Us</ListItem>
-						<ListItem>Get Quote</ListItem>
-						<ListItem>Our Products</ListItem>
-						<ListItem>Contact Us</ListItem>
-						<ListItem>Terms & Conditions</ListItem>
+						{Links.map((item, index) => (
+							<Link to={item.link} style={{ textDecoration: 'none', color: '#fff', width: '60%' }}>
+								<ListItem key={index}>{item.title}</ListItem>
+							</Link>
+						))}
 					</List>
 				</Center>
 				<Right>

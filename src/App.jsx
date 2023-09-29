@@ -1,68 +1,130 @@
 import './App.css';
-import { useState, useEffect } from 'react';
 import Home from './pages/Home';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Products from './pages/Products';
 import { ProductCard } from './components/ProductCard';
-import Categories from './components/Categories';
 import ProductDetail from './components/ProductDetail';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import About from './pages/About';
 import { Contact } from './pages/Contact';
 import QuoteForm from './pages/QuoteForm';
-import Login from './admin/Login';
+import Login from './admin/Components/Login';
 import Dashboard from './admin/Dashboard';
-import { NewProduct } from './admin/NewProduct';
-import { UpdateProduct } from './admin/UpdateProduct';
+import { NewProduct } from './admin/Components/NewProduct';
+import { UpdateProduct } from './admin/Components/UpdateProduct';
 import { useAuthContext } from './hooks/useAuthContext';
-import { ProductContext } from './Contexts/ProductContext';
 import axios from 'axios';
+import AllCategories from './admin/Components/AllCategories';
+import { NewCategory } from './admin/Components/NewCategory';
+import Inquiries from './admin/Components/Inquiry';
+import AllProducts from './admin/Components/Products';
+import { UpdateCategory } from './admin/Components/UpdateCategory';
+import ViewInquiry from './admin/Components/ViewInquiry';
+import AdminLayout from './layouts/adminLayout';
 
 function App() {
-	const [data, setData] = useState([]);
-
-	const endPoint = 'https://surgiglass.herokuapp.com/api/';
-	useEffect(() => {
-		fetchProducts();
-	}, []);
-
-	const fetchProducts = async () => {
-		try {
-			const productData = await axios.get(endPoint);
-			const result = productData.data;
-
-			setData(result);
-		} catch (error) {
-			console.error(error);
-		}
-	};
 	const { user } = useAuthContext();
+
+	const PrivateRoute = ({ children }) => {
+		const user = localStorage.getItem('user');
+		return user ? children : <Navigate to={'/login'} replace />;
+	};
 
 	return (
 		<BrowserRouter>
-			<ProductContext.Provider value={{ data }}>
-				<div id="container">
-					<Navigation />
-					<div id="main-content">
-						<Routes>
-							<Route path="/admin" element={user ? <Dashboard /> : <Navigate to={'/login'} />} />
-							<Route path="/login" element={!user ? <Login /> : <Navigate to={'/admin'} />} />
-							<Route path="/addproduct" element={user ? <NewProduct /> : <Navigate to={'/login'} />} />
-							<Route path="/update/:id" element={user ? <UpdateProduct /> : <Navigate to={'/login'} />} />
-							<Route index element={<Home />} />
-							<Route path="/about" element={<About />} />
-							<Route path="/contact" element={<Contact />} />
-							<Route path="/quotation" element={<QuoteForm />} />
-							<Route path="/products" element={<Products />} />
-							<Route path="/products/:category" element={<Products />} />
-							<Route path="/products/:category/:subcategory" element={<ProductCard />} />
-							<Route path="/products/:category/:subcategory/:prodId" exact element={<ProductDetail />} />
-						</Routes>
-					</div>
-					<Footer />
+			<div id="container">
+				<Navigation />
+				<div id="main-content">
+					<Routes>
+						<Route path="/login" element={<Login />} />
+						<Route path="/" element={<AdminLayout />}>
+							<Route
+								path="/dashboard"
+								element={
+									<PrivateRoute>
+										<Dashboard />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/allcategories"
+								element={
+									<PrivateRoute>
+										<AllCategories />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/createcategory"
+								element={
+									<PrivateRoute>
+										<NewCategory />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/updatecategory/:id"
+								element={
+									<PrivateRoute>
+										<UpdateCategory />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/allproducts"
+								element={
+									<PrivateRoute>
+										<AllProducts />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/createproduct"
+								element={
+									<PrivateRoute>
+										<NewProduct />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/updateproduct/:id"
+								element={
+									<PrivateRoute>
+										<UpdateProduct />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="/inquiries"
+								element={
+									<PrivateRoute>
+										<Inquiries />
+									</PrivateRoute>
+								}
+							/>
+							<Route
+								path="viewinquiry/:inquiryId"
+								element={
+									<PrivateRoute>
+										<ViewInquiry />
+									</PrivateRoute>
+								}
+							/>
+						</Route>
+
+						<Route index element={<Home />} />
+						<Route path="/about" element={<About />} />
+						<Route path="/contact" element={<Contact />} />
+						<Route path="/quotation" element={<QuoteForm />} />
+						<Route path="/products" element={<Products />} />
+
+						<Route path="/products/:category/:subcategory" element={<ProductCard />} />
+						<Route path="/products/:category/:subcategory/:prodId" exact element={<ProductDetail />} />
+					</Routes>
 				</div>
-			</ProductContext.Provider>
+				<Footer />
+			</div>
 		</BrowserRouter>
 	);
 }

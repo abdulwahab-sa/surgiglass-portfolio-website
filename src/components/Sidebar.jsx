@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { FaSearch, FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import products from '../data';
-import { ProductContext } from '../Contexts/ProductContext';
+import { useAPI } from '../Contexts/ProductContext';
 import { Link } from 'react-router-dom';
 import BigScreen from '../responsive';
 import useOnclickOutside from 'react-cool-onclickoutside';
@@ -113,12 +113,8 @@ function getUniqueListBy(arr, key) {
 	return [...new Map(arr.map((item) => [item[key], item])).values()];
 }
 
-function Sidebar() {
-	const { setShowCategories } = useContext(ProductContext);
-	const { data } = useContext(ProductContext);
-	const uniqueMainCategories = getUniqueListBy(data, 'mainCategory');
-	const uniqueSubCategories = getUniqueListBy(data, 'subCategory');
-	const [selectedCategory, setSelectedCategory] = useState();
+function Sidebar({ setCategory }) {
+	const { categories } = useAPI();
 	const [dropdown, setDropdown] = useState(false);
 	const [disabled, setDisabled] = useState(false);
 	const [textInput, setTextInput] = useState('');
@@ -127,8 +123,6 @@ function Sidebar() {
 		e.preventDefault();
 		e.stopPropagation();
 		//setShowCategories(el);
-		setSelectedCategory(el);
-		setDropdown((prev) => !prev);
 	};
 
 	const [responsive, setResponsive] = useState(true);
@@ -160,8 +154,8 @@ function Sidebar() {
 		},
 		{ disabled }
 	);
-
-	const filteredProducts = data.filter((product) => product.subCategory.toLowerCase().includes(textInput.toLowerCase()));
+	/*
+	//const filteredProducts = data.filter((product) => product.subCategory.toLowerCase().includes(textInput.toLowerCase()));
 
 	const handleSearchClick = (e) => {
 		e.preventDefault();
@@ -174,53 +168,35 @@ function Sidebar() {
 			setShowCategories(filteredProducts);
 		}
 	};
-
+*/
 	const handleChange = (e) => {
 		setTextInput(e.target.value);
-		setShowCategories(filteredProducts);
 	};
 
 	return (
 		<Container left={responsiveSidebar ? '0' : '-100%'} ref={ref}>
 			<SearchWrapper>
 				{' '}
-				<Input type="text" placeholder="Search Products" value={textInput} onChange={handleChange} onKeyDown={handleKeyDown} />
+				<Input type="text" placeholder="Search Products" value={textInput} onChange={handleChange} />
 				<Search>
 					{' '}
-					<FaSearch onClick={handleSearchClick} />{' '}
+					<FaSearch />{' '}
 				</Search>
 			</SearchWrapper>
 			<CategoryWrapper>
 				<Title> Our Products</Title>
-				{uniqueMainCategories.map((el) => {
+				<CategoryItemWrapper>
+					<CategoryItem onClick={() => setCategory('')}>All Categories</CategoryItem>
+				</CategoryItemWrapper>
+
+				{categories.map((el) => {
 					return (
 						<>
-							<CategoryItemWrapper
-								onClick={(e) => {
-									handleClick(e, el.mainCategory);
-								}}
-							>
-								<Link to={`/products/${el.mainCategory}`} style={linkStyles}>
-									<CategoryItem> {el.mainCategory} </CategoryItem>
+							<CategoryItemWrapper onClick={() => setCategory(el.category_title)}>
+								<Link to={`#`} style={linkStyles}>
+									<CategoryItem> {el.category_title} </CategoryItem>
 								</Link>
-								<DropDownArrow>{dropdown && selectedCategory === el.mainCategory ? <FaAngleUp /> : <FaAngleDown />}</DropDownArrow>
 							</CategoryItemWrapper>
-							{dropdown &&
-								selectedCategory === el.mainCategory &&
-								uniqueSubCategories
-									.filter((prod) => prod.mainCategory === el.mainCategory)
-									.map((prod, i, arr) => {
-										return (
-											<CategoryWrapper style={{ margin: '1rem auto' }}>
-												<CategoryItemWrapper style={{ justifyContent: 'center', height: '35px', fontSize: '14px' }}>
-													<Link to={`/products/${prod.mainCategory}/${prod.subCategory}`} style={linkStyles}>
-														<CategoryItem>{prod.subCategory}</CategoryItem>
-														<Quantity>{`(${data.filter((item) => item.subCategory === el.subCategory).length})`}</Quantity>
-													</Link>
-												</CategoryItemWrapper>
-											</CategoryWrapper>
-										);
-									})}
 						</>
 					);
 				})}

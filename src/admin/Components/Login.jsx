@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useLogin } from '../hooks/useLogin';
+import { useLogin } from '../../hooks/useLogin';
 
 const Container = styled.div`
 	width: 100%;
@@ -29,13 +29,13 @@ const Heading = styled.h2`
 	color: #303030;
 `;
 const Input = styled.input`
-	width: 100%;
-	margin: 10px auto;
-	padding: 8px 12px;
-	text-indent: 6px;
-	background-color: #fff;
-	border: 0.5px solid grey;
+	padding: 14px 8px;
+	border: 1px solid #d3d3d3;
 	color: #303030;
+	font-family: 'Montserrat', sans-serif;
+	width: 100%;
+	border-radius: 8px;
+	margin: 5px;
 `;
 const Button = styled.button`
 	border: none;

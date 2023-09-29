@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ProductContext } from '../Contexts/ProductContext';
+import { useAPI } from '../Contexts/ProductContext';
 import BigScreen from './../responsive';
+import products from '../data';
 
 const Container = styled.div`
 	height: 100%;
@@ -79,27 +80,20 @@ const Button = styled.button`
 
 const ProductDetail = () => {
 	const { prodId } = useParams();
-	const { data } = useContext(ProductContext);
-	const reqProduct = data.find((el) => el.id === parseInt(prodId));
-	console.log(reqProduct);
-	console.log(prodId);
+	const { products } = useAPI();
+	const reqProduct = products.find((el) => el.product_id === parseInt(prodId));
+
 	return (
 		<Container>
 			<Wrapper>
 				<ImgContainer>
-					<Image src={`data:image/jpeg;base64,${reqProduct.productImg}`} />
+					<Image src={URL.createObjectURL(new Blob([new Uint8Array(reqProduct.product_img.data)], { type: 'image/png' }))} />
 				</ImgContainer>
 				<InfoContainer>
-					<Title>{reqProduct.productName}</Title>
-					<Article> {`Article # ${reqProduct.article}`}</Article>
-					<Article> {`Category: ${reqProduct.subCategory}`}</Article>
-					<Desc>
-						{reqProduct.productDescription}
-						Introducing our range of premium quality dental instruments, made from durable stainless steel. Our products are the result of
-						extensive research and development, ensuring they meet the highest standards in both performance and safety. From scalers to
-						forceps, our instruments are designed to make your dental procedures easier and more efficient. Trust us to provide the best
-						tools for the job and experience the difference in quality today!
-					</Desc>
+					<Title>{reqProduct.product_title}</Title>
+					<Article> {`Article # ${reqProduct.product_article}`}</Article>
+					<Article> {`Category: ${reqProduct.subcategory_title}`}</Article>
+					<Desc>{reqProduct.product_description}</Desc>
 					<Link to={'/quotation'}>
 						<Button>SEND INQUIRY</Button>
 					</Link>

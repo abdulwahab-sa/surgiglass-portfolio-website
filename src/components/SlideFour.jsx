@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import SlideImg from './../images/banner8.jpg';
 import SlideImgTwo from './../images/banner21.jpg';
 import BigScreen from '../responsive';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
 	height: 100%;
@@ -128,7 +129,9 @@ function SlideFour() {
 					{' '}
 					Precision, Care, and Comfort <br /> in Every Instrument{' '}
 				</Statement>
-				<Button> EXPLORE PRODUCTS </Button>
+				<Link to="/products">
+					<Button> EXPLORE PRODUCTS </Button>
+				</Link>
 			</InfoWrapper>
 
 			<Img src={SlideImg} style={smallScreen} />

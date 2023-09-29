@@ -1,9 +1,7 @@
-import React, { useContext } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import CategoryImg from './../images/mirror.jpg';
-import { ProductContext } from '../Contexts/ProductContext';
-import products from '../data';
-import { Link } from 'react-router-dom';
+import { useAPI } from '../Contexts/ProductContext';
+import { Link, useParams } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
 
 const Container = styled.div`
@@ -110,46 +108,26 @@ const Qty = styled.span`
 	font-weight: 300;
 `;
 
-const Categories = () => {
-	const { showCategories, selectedCategoryarr, uniqueSubCategories, data } = useContext(ProductContext);
-	const finalCategories = selectedCategoryarr.length ? selectedCategoryarr : uniqueSubCategories;
-	//const filteredSubcategory = products.filter((items) => items.subCategory == subcategory);
-
+const Categories = ({ data }) => {
 	return (
 		<Container>
-			{showCategories.length
-				? showCategories.map((el, i, arr) => {
-						return (
-							<Link to={`/products/${el.mainCategory}/${el.subCategory}`} style={{ textDecoration: 'none' }}>
-								<Wrapper key={el.id}>
-									<Img src={`data:image/jpeg;base64,${el.subCategoryImg}`} />
-									<Info>
-										<Icon>
-											<FaSearch />
-										</Icon>
-									</Info>
-									<CatTitle>{el.subCategory.toUpperCase()}</CatTitle>
-									{/*<Qty>{`${data.filter((item) => item.subCategory === el.subCategory).length} PRODUCTS`}</Qty>*/}
-								</Wrapper>
-							</Link>
-						);
-				  })
-				: finalCategories.map((el, i, arr) => {
-						return (
-							<Link to={`/products/${el.mainCategory}/${el.subCategory}`} style={{ textDecoration: 'none' }}>
-								<Wrapper key={el.id}>
-									<Img src={`data:image/jpeg;base64,${el.subCategoryImg}`} />
-									<Info>
-										<Icon>
-											<FaSearch />
-										</Icon>
-									</Info>
-									<CatTitle>{el.subCategory.toUpperCase()}</CatTitle>
-									{/*<Qty>{`${data.filter((item) => item.subCategory === el.subCategory).length} PRODUCTS`}</Qty>*/}
-								</Wrapper>
-							</Link>
-						);
-				  })}
+			{data?.map((el, i, arr) => {
+				return (
+					<Link to={`/products/${el.category_title}/${el.subcategory_title}`} key={el.subcategory_id} style={{ textDecoration: 'none' }}>
+						<Wrapper>
+							<Img src={URL.createObjectURL(new Blob([new Uint8Array(el.subcategory_img.data)], { type: 'image/png' }))} />
+
+							<Info>
+								<Icon>
+									<FaSearch />
+								</Icon>
+							</Info>
+							<CatTitle>{el.subcategory_title.toUpperCase()}</CatTitle>
+							{/*<Qty>{`${data.filter((item) => item.subCategory === el.subCategory).length} PRODUCTS`}</Qty>*/}
+						</Wrapper>
+					</Link>
+				);
+			})}
 		</Container>
 	);
 };

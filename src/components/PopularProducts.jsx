@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { ProductContext } from '../Contexts/ProductContext';
+import { useAPI } from '../Contexts/ProductContext';
 import { Link } from 'react-router-dom';
 
 const ProductContainer = styled.div`
