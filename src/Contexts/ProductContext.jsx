@@ -30,7 +30,7 @@ export function APIContextProvider({ children }) {
 
 	async function fetchData(endpoint) {
 		try {
-			const { data } = await axios.get(`http://localhost:5000/api/${endpoint}`);
+			const { data } = await axios.get(`https://surgiglass-njvx8.ondigitalocean.app/api/${endpoint}`);
 
 			if (endpoint === 'categories') {
 				dispatch({ type: 'SET_CATEGORIES', payload: data });
@@ -63,52 +63,3 @@ export function useAPI() {
 	}
 	return context;
 }
-
-/*
-export function APIContextProvider({ children }) {
-	const [categories, setCategories] = useState([]);
-	const [subcategories, setSubcategories] = useState([]);
-	const [products, setProducts] = useState([]);
-
-	async function fetchData(endpoint) {
-		try {
-			const { data } = await axios.get(`https://tradecity.herokuapp.com/api/${endpoint}`);
-
-			if (endpoint === 'categories') {
-				setCategories(data);
-			} else if (endpoint === 'subcategories') {
-				setSubcategories(data);
-			} else if (endpoint === 'products') {
-				setProducts(data);
-			}
-		} catch (err) {
-			console.error(err);
-		}
-	}
-	useEffect(() => {
-		fetchData('categories');
-		fetchData('subcategories');
-		fetchData('products');
-	}, []);
-
-	return (
-		<APIContext.Provider
-			value={{
-				categories,
-				subcategories,
-				products,
-			}}
-		>
-			{children}
-		</APIContext.Provider>
-	);
-}
-
-export function useAPI() {
-	const context = useContext(APIContext);
-	if (context === undefined) {
-		throw new Error('Context must be used within a Provider');
-	}
-	return context;
-}
-*/

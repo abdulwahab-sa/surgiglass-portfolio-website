@@ -191,13 +191,11 @@ function Sidebar({ setCategory }) {
 
 				{categories.map((el) => {
 					return (
-						<>
-							<CategoryItemWrapper onClick={() => setCategory(el.category_title)}>
-								<Link to={`#`} style={linkStyles}>
-									<CategoryItem> {el.category_title} </CategoryItem>
-								</Link>
-							</CategoryItemWrapper>
-						</>
+						<CategoryItemWrapper key={el.category_id} onClick={() => setCategory(el.category_title)}>
+							<Link to={`#`} style={linkStyles}>
+								<CategoryItem> {el.category_title} </CategoryItem>
+							</Link>
+						</CategoryItemWrapper>
 					);
 				})}
 			</CategoryWrapper>

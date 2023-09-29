@@ -20,7 +20,7 @@ export default function CategoryTable() {
 	const handleDelete = (id) => {
 		setData(data.filter((item) => item.id !== id));
 		axios
-			.delete(`http://localhost:5000/api/subcategories/${id}`)
+			.delete(`https://surgiglass-njvx8.ondigitalocean.app/api/subcategories/${id}`)
 			.then((response) => {
 				console.log(response);
 			})

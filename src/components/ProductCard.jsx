@@ -81,7 +81,7 @@ const linkStyle = {
 export const ProductCard = () => {
 	const { category, subcategory } = useParams();
 	const { products } = useAPI();
-	console.log(products);
+
 	return (
 		<Container>
 			<ProductContainer>

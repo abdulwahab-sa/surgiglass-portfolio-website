@@ -17,7 +17,7 @@ export default function ProductTable() {
 		console.log(products);
 	}, [products]);
 
-	const endPoint = `http://localhost:5000/api/products/`;
+	const endPoint = `https://surgiglass-njvx8.ondigitalocean.app/api/products/`;
 
 	const handleDelete = (id) => {
 		setData(data.filter((item) => item.product_id !== id));

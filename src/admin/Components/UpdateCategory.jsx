@@ -116,7 +116,7 @@ export const UpdateCategory = () => {
 		getCategory;
 	}, [id]);
 
-	const endPoint = `http://localhost:5000/api/subcategories/${id} `;
+	const endPoint = `https://surgiglass-njvx8.ondigitalocean.app/api/subcategories/${id} `;
 
 	const [formInputs, setFormInputs] = useState({
 		subcategory_title: '',

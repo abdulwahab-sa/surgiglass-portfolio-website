@@ -109,7 +109,7 @@ const Errormessage = styled.span`
 export const NewCategory = () => {
 	const { categories } = useAPI();
 
-	const endPoint = `http://localhost:5000/api/subcategories`;
+	const endPoint = `https://surgiglass-njvx8.ondigitalocean.app/api/subcategories`;
 
 	const [formInputs, setFormInputs] = useState({
 		subcategory_title: '',

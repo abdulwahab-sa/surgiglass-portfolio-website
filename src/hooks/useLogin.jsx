@@ -6,7 +6,7 @@ export const useLogin = () => {
 	const { dispatch } = useAuthContext();
 
 	const login = async (username, password) => {
-		const response = await axios.post('http://localhost:5000/api/login', { username, password });
+		const response = await axios.post('https://surgiglass-njvx8.ondigitalocean.app/api/login', { username, password });
 		const data = response.data.accessToken;
 		console.log(data);
 		if (!data) {

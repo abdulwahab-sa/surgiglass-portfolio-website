@@ -108,7 +108,7 @@ const Errormessage = styled.span`
 export const NewProduct = () => {
 	const { categories, subcategories, products } = useAPI();
 
-	const endPoint = `http://localhost:5000/api/products`;
+	const endPoint = `https://surgiglass-njvx8.ondigitalocean.app/api/products`;
 
 	const [formInputs, setFormInputs] = useState({
 		product_title: '',

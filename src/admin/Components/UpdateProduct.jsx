@@ -109,7 +109,7 @@ export const UpdateProduct = () => {
 	const { categories, subcategories, products } = useAPI();
 	const { id } = useParams();
 
-	const endPoint = `http://localhost:5000/api/products/${id}`;
+	const endPoint = `https://surgiglass-njvx8.ondigitalocean.app/api/products/${id}`;
 
 	const [formInputs, setFormInputs] = useState({
 		product_title: '',

@@ -26,7 +26,7 @@ export default function InquiryTable() {
 		setData(inquiries);
 	}, [inquiries]);
 
-	const endPoint = `http://localhost:5000/api/inquiry/`;
+	const endPoint = `https://surgiglass-njvx8.ondigitalocean.app/api/inquiry/`;
 
 	const handleDelete = (id) => {
 		setData(data.filter((item) => item.inquiry_id !== id));
